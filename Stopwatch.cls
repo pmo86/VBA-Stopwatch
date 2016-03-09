@@ -35,19 +35,11 @@ Public Property Get IsRunning() As Boolean
 End Property
 
 Public Property Get Elapsed() As Variant
-    If m_IsRunning Then
-        Elapsed = 0
-    Else
         Elapsed = m_Elapsed
-    End If
 End Property
 
 Public Property Get ElapsedMilliseconds() As Variant
-    If m_IsRunning Then
-        ElapsedMilliseconds = 0
-    Else
         ElapsedMilliseconds = m_Elapsed * Interval.Millisecond
-    End If
 End Property
 
 Private Property Get ElapsedMicroseconds() As Variant 'not used
