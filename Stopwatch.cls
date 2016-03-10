@@ -17,37 +17,22 @@ Option Explicit
     Private Declare Function QueryPerformanceFrequency Lib "kernel32.dll" (ByRef lpFrequency As Currency) As Long
 #End If
 
-Private Enum Interval
-    Second = 1
-    Millisecond = 1000
-    Microsecond = 1000000
-    Nanosecond = 1000000000
-End Enum
-
-Private m_Elapsed As Variant 'Decimal
+Private m_elapsed As Variant 'Decimal
 Private m_ticksPerSecond As Currency
 Private m_startTick As Currency
 Private m_endTick As Currency
-Private m_IsRunning As Boolean
+Private m_isRunning As Boolean
 
 Public Property Get IsRunning() As Boolean
-    IsRunning = m_IsRunning
+    IsRunning = m_isRunning
 End Property
 
 Public Property Get Elapsed() As Variant
-        Elapsed = m_Elapsed
+        Elapsed = m_elapsed
 End Property
 
 Public Property Get ElapsedMilliseconds() As Variant
-        ElapsedMilliseconds = m_Elapsed * Interval.Millisecond
-End Property
-
-Private Property Get ElapsedMicroseconds() As Variant 'not used
-    ElapsedMicroseconds = m_Elapsed * Interval.Microsecond
-End Property
-
-Private Property Get ElapsedNanoseconds() As Variant 'not used
-    ElapsedNanoseconds = m_Elapsed * Interval.Nanosecond
+        ElapsedMilliseconds = m_elapsed * 1000
 End Property
 
 Private Sub Class_Initialize()
@@ -57,8 +42,8 @@ Private Sub Class_Initialize()
 End Sub
 
 Public Sub Start()
-    If m_IsRunning = False Then
-        m_IsRunning = True
+    If IsRunning = False Then
+        m_isRunning = True
         QueryPerformanceCounter m_startTick
     Else
         Err.Raise Number:=vbObjectError + 236, Description:="Cannot execute Start(): Stopwatch is currently running!"
@@ -66,10 +51,10 @@ Public Sub Start()
 End Sub
 
 Public Sub Finish()
-    If m_IsRunning Then
-        m_IsRunning = False
+    If IsRunning Then
+        m_isRunning = False
         QueryPerformanceCounter m_endTick
-        m_Elapsed = CDec((m_endTick - m_startTick) / m_ticksPerSecond)
+        m_elapsed = CDec((m_endTick - m_startTick) / m_ticksPerSecond)
     Else
         Err.Raise Number:=vbObjectError + 235, Description:="Cannot execute Finish(): Stopwatch is not running!"
     End If
@@ -81,6 +66,6 @@ Public Sub Restart()
 End Sub
 
 Public Sub Reset()
-    m_IsRunning = False
-    m_Elapsed = 0
+    m_isRunning = False
+    m_elapsed = 0
 End Sub
