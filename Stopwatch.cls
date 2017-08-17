@@ -60,9 +60,9 @@ Public Sub Finish()
     End If
 End Sub
 
-Public Sub Restart()
-    ResetTimer
-    StartTimer
+Public Sub Restart() 'stop, reset, start again
+    Reset
+    Start
 End Sub
 
 Public Sub Reset()
